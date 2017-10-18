@@ -30,8 +30,8 @@ public class Account {
 		this.id = id;
 	}
 
-	@OneToMany(mappedBy="matchingAccount", cascade = CascadeType.ALL)
-	private List<Transaction> matchingTransactions;
+	@OneToMany(mappedBy="participatingAccount", cascade = CascadeType.ALL)
+	private List<Transaction> participatingTransactions;
 		
 	private String identificationPattern;	
 	
@@ -64,7 +64,7 @@ public class Account {
 		
 		for(String pattern: patterns)	{
 			
-			if(text.contains(pattern)) return true;
+			if(text.toLowerCase().contains(pattern.toLowerCase())) return true;
 		}
 		
 		return false;
@@ -86,12 +86,12 @@ public class Account {
 		this.description = description;
 	}
 
-	public List<Transaction> getMatchingTransactions() {
-		return matchingTransactions;
+	public List<Transaction> getParticipatingTransactions() {
+		return participatingTransactions;
 	}
 
-	public void setMatchingTransactions(List<Transaction> matchingTransactions) {
-		this.matchingTransactions = matchingTransactions;
+	public void setParticipatingTransactions(List<Transaction> participatingTransactions) {
+		this.participatingTransactions = participatingTransactions;
 	}
 
 	public String getIdentificationPattern() {

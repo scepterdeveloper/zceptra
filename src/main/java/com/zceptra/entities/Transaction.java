@@ -18,7 +18,9 @@ public class Transaction {
 	
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private Long id;    
+    private String date;    
+    private Double amount;
     
     @Lob
     @Type(type = "org.hibernate.type.TextType")    
@@ -30,7 +32,7 @@ public class Transaction {
     
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn
-    private Account matchingAccount;
+    private Account participatingAccount;
 
 	public Long getId() {
 		return id;
@@ -58,11 +60,40 @@ public class Transaction {
 	}
 
 	@JsonIgnore
-	public Account getMatchingAccount() {
-		return matchingAccount;
+	public Account getParticipatingAccount() {
+		return participatingAccount;
 	}
 
-	public void setMatchingAccount(Account matchingAccount) {
-		this.matchingAccount = matchingAccount;
+	public void setParticipatingAccount(Account participatingAccount) {
+		this.participatingAccount = participatingAccount;
 	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+	
+	public void setAmount(String amount) {
+		
+		amount = amount.replace(',', '.');
+		if(amount.charAt(0)=='-')	{
+			
+			this.amount = Double.parseDouble(amount.substring(1)) * -1;
+		}		
+		else	{
+			
+			this.amount = Double.parseDouble(amount);
+		}
+	}	
 }

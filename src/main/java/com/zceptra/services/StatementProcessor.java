@@ -33,11 +33,11 @@ public class StatementProcessor {
 		int amountIndex = findIndex(headerFields, profile.getAmountHeader());
 		int textIndex = findIndex(headerFields, profile.getTextHeader());
 		
-		Iterable<Account> accounts = accountRepository.findAll();
-		Account matchingAccount = statementAccount;
+		Iterable<Account> accounts = accountRepository.findAll();		
 		
 		for(int i=1; i<lines.length; i++)	{
 			
+			Account matchingAccount = statementAccount;
 			String[] fields = lines[i].split(profile.getColumnSeparator());
 			String date = fields[dateIndex];
 			String amount = fields[amountIndex];
@@ -53,8 +53,10 @@ public class StatementProcessor {
 			}
 
 			Transaction transaction = new Transaction();
+			transaction.setDate(date);
+			transaction.setAmount(amount);
 			transaction.setAccount(statementAccount);
-			transaction.setMatchingAccount(matchingAccount);
+			transaction.setParticipatingAccount(matchingAccount);
 			transaction.setText(date + " | " + amount + " | " + text + " | " + matchingAccount.getName());
 			statementAccount.addTransaction(transaction);			
 		}

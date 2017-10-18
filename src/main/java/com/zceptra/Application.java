@@ -20,24 +20,35 @@ public class Application {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(AccountRepository accountRepository, StatementProfileRepository stmtRepository) {
+	public CommandLineRunner demo(AccountRepository accountRepository, StatementProfileRepository stmtProfileRepository) {
 		return (args) -> {
 			// save a couple of customers
 			accountRepository.save(new Account("commerzbank", "", "commerzbank"));
 			accountRepository.save(new Account("comdirect", "", "Transfer"));
+			accountRepository.save(new Account("eat out", "", "restaurant;dinner"));
 			accountRepository.save(new Account("wallet", "", "withdrawal"));
 			accountRepository.save(new Account("other income", "", "Bundesagentur"));
 			accountRepository.save(new Account("service charges", "", "KlassikDepot;Lohnsteuerhilfe"));
 			accountRepository.save(new Account("utilities", "", "Erdgas; Rundfunk"));
 			
-			StatementProfile profile = new StatementProfile();
-			profile.setColumnSeparator(";");
-			profile.setRowSeparator("\n");
-			profile.setDateHeader("Buchungstag");
-			profile.setAmountHeader("Betrag");
-			profile.setTextHeader("Buchungstext");
+			StatementProfile profile_1 = new StatementProfile();
+			profile_1.setColumnSeparator(";");
+			profile_1.setRowSeparator("\n");
+			profile_1.setDateHeader("Buchungstag");
+			profile_1.setAmountHeader("Betrag");
+			profile_1.setTextHeader("Buchungstext");
 			
-			stmtRepository.save(profile);
+			stmtProfileRepository.save(profile_1);
+			
+			StatementProfile profile_2 = new StatementProfile();
+			profile_2.setColumnSeparator(",");
+			profile_2.setRowSeparator("\n");
+			profile_2.setDateHeader("date");
+			profile_2.setAmountHeader("amount");
+			profile_2.setTextHeader("text");
+			
+			stmtProfileRepository.save(profile_2);
+			
 		};
 	}	
 }
