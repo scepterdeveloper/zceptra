@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import com.zceptra.entities.Account;
+import com.zceptra.entities.Category;
 import com.zceptra.entities.StatementProfile;
 import com.zceptra.repositories.AccountRepository;
+import com.zceptra.repositories.CategoryRepository;
 import com.zceptra.repositories.StatementProfileRepository;
 
 @SpringBootApplication
@@ -20,16 +22,25 @@ public class Application {
 	}
 	
 	@Bean
-	public CommandLineRunner demo(AccountRepository accountRepository, StatementProfileRepository stmtProfileRepository) {
+	public CommandLineRunner demo(CategoryRepository categoryRepository, AccountRepository accountRepository, StatementProfileRepository stmtProfileRepository) {
 		return (args) -> {
-			// save a couple of customers
-			accountRepository.save(new Account("commerzbank", "", "commerzbank"));
-			accountRepository.save(new Account("comdirect", "", "Transfer"));
-			accountRepository.save(new Account("eat out", "", "restaurant;dinner"));
-			accountRepository.save(new Account("wallet", "", "withdrawal"));
-			accountRepository.save(new Account("other income", "", "Bundesagentur"));
-			accountRepository.save(new Account("service charges", "", "KlassikDepot;Lohnsteuerhilfe"));
-			accountRepository.save(new Account("utilities", "", "Erdgas; Rundfunk"));
+			
+			//Setup the categories
+			Category liquidCash = new Category("Liquid Cash", "Bank Accounts, Wallet etc.");
+			categoryRepository.save(liquidCash);
+			Category income = new Category("Income", "Salary and other income");
+			categoryRepository.save(income);
+			Category expenses = new Category("Expenses", "Expenses");
+			categoryRepository.save(expenses);
+
+			// save a couple of accounts
+			accountRepository.save(new Account(liquidCash, "commerzbank", "", "commerzbank"));
+			accountRepository.save(new Account(liquidCash, "comdirect", "", "Transfer"));
+			accountRepository.save(new Account(expenses, "eat out", "", "restaurant;dinner"));
+			accountRepository.save(new Account(liquidCash, "wallet", "", "withdrawal"));
+			accountRepository.save(new Account(income, "other income", "", "Bundesagentur"));
+			accountRepository.save(new Account(expenses, "service charges", "", "KlassikDepot;Lohnsteuerhilfe"));
+			accountRepository.save(new Account(expenses, "utilities", "", "Erdgas; Rundfunk"));
 			
 			StatementProfile profile_1 = new StatementProfile();
 			profile_1.setColumnSeparator(";");

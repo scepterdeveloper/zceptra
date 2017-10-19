@@ -26,11 +26,11 @@ public class Transaction {
     @Type(type = "org.hibernate.type.TextType")    
     private String text;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn
     private Account account;
     
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn
     private Account participatingAccount;
 

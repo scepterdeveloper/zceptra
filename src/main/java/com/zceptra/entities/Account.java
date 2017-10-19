@@ -5,10 +5,15 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Account {	
@@ -22,6 +27,19 @@ public class Account {
 	@OneToMany(mappedBy="account", cascade = CascadeType.ALL)
 	private List<Transaction> transactions;
 	
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn	
+	private Category category;
+	
+    @JsonIgnore
+    public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -40,8 +58,9 @@ public class Account {
 		transactions = new ArrayList<>();
 	}
 	
-	public Account(String name, String description, String identificationPattern)	{
+	public Account(Category category, String name, String description, String identificationPattern)	{
 		
+		this.category = category;
 		this.setName(name);
 		this.setDescription(description);
 		this.identificationPattern = identificationPattern;
