@@ -3,6 +3,7 @@ package com.zceptra.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,17 +22,14 @@ public class AccountController {
 	public Iterable<Account> getAllAccounts()	{
 		
 		Iterable<Account> accounts = repository.findAll();
+		return accounts;
+	}
+
+	@CrossOrigin(origins = "http://localhost:4200")	
+	@RequestMapping(value="get-accounts")
+	public List<Account> getAccounts(@RequestParam Long categoryId)	{
 		
-		for(Account account: accounts)	{
-			
-			System.out.println("Account: " + account.getName());
-			System.out.println("-------------------------------");
-			for(Transaction transaction: account.getTransactions())	{
-				
-				System.out.println(transaction.getText());
-			}
-		}
-		
+		List<Account> accounts = repository.findByCategoryId(categoryId);		
 		return accounts;
 	}
 	
