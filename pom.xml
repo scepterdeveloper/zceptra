@@ -9,7 +9,6 @@
 	<packaging>jar</packaging>
 
 	<name>com.zceptra.services.statementprocessing</name>
-	<description>Statement Processing Service</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -59,4 +58,5 @@
 	</build>
 
 
+	<description>Zceptra Services</description>
 </project>
