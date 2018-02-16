@@ -25,7 +25,8 @@ public class AccountController {
 		return accounts;
 	}
 
-	@CrossOrigin(origins = "http://localhost:4200")	
+	//@CrossOrigin(origins = "http://localhost:4200")	
+	@CrossOrigin(origins = "https://zceptra-ui.herokuapp.com")
 	@RequestMapping(value="get-accounts")
 	public List<Account> getAccounts(@RequestParam Long categoryId)	{
 		
