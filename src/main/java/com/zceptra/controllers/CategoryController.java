@@ -14,15 +14,14 @@ public class CategoryController {
 	@Autowired
 	private CategoryRepository repository;
 	
-	@CrossOrigin(origins = "https://zceptra-ui.herokuapp.com")
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
 	@RequestMapping(value="get-all-categories")
 	public Iterable<Category> getAllCategories()	{
 		
 		return repository.findAll();
 	}
 	
-	//@CrossOrigin(origins = "http://localhost:4200")
-	@CrossOrigin(origins = "https://zceptra-ui.herokuapp.com")
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
 	@RequestMapping(value="get-category")
 	public Category getCategory(Long id)	{
 		
