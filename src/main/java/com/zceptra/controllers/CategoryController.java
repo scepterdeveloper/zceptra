@@ -10,6 +10,8 @@ import com.zceptra.repositories.CategoryRepository;
 
 @RestController
 public class CategoryController {
+	
+	//test
 
 	@Autowired
 	private CategoryRepository repository;
