@@ -25,7 +25,7 @@ public class Application {
 	public CommandLineRunner demo(CategoryRepository categoryRepository, AccountRepository accountRepository, StatementProfileRepository stmtProfileRepository) {
 		return (args) -> {
 			
-			//Setup the categories
+/*			//Setup the categories
 			Category liquidCash = new Category("Liquid Cash", "Bank Accounts, Wallet etc.");
 			categoryRepository.save(liquidCash);
 			Category income = new Category("Income", "Salary and other income");
@@ -58,7 +58,7 @@ public class Application {
 			profile_2.setAmountHeader("amount");
 			profile_2.setTextHeader("text");
 			
-			stmtProfileRepository.save(profile_2);
+			stmtProfileRepository.save(profile_2);*/
 			
 		};
 	}	

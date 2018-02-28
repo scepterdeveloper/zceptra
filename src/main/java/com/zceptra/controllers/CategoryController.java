@@ -1,11 +1,12 @@
 package com.zceptra.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zceptra.entities.Category;
@@ -33,15 +34,21 @@ public class CategoryController {
 	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
 	@RequestMapping(value="edit-category", method=RequestMethod.POST)
-	public void saveCategory(@RequestBody Category category)	{
+	@ResponseBody
+	public Category saveCategory(@RequestBody Category editedCategory)	{
 		
+		Category category = null;
 		
-		Category savedCategory = repository.findOne(category.getId());
-		savedCategory.setDescription(category.getDescription());
-		repository.save(savedCategory);
+		if(editedCategory.getId() != null)	{
+			
+			category = repository.findOne(editedCategory.getId());
+		}
+		else {
+			category = new Category();
+		}
 		
-		System.out.println("POST");
-		System.out.println("Category: " + category.getId() + " | " + category.getName() + " | " + category.getDescription());
-		//repository.save(category);
+		category.setName(editedCategory.getName());
+		category.setDescription(editedCategory.getDescription());
+		return repository.save(category);
 	}
 }
