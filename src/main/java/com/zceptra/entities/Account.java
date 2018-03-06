@@ -12,8 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 @Entity
 public class Account {	
@@ -23,17 +26,18 @@ public class Account {
 	private Long id;
 	private String name;
 	private String description;
-	
+
 	@OneToMany(mappedBy="account", cascade = CascadeType.ALL)
 	private List<Transaction> transactions;
 	
     @ManyToOne(fetch=FetchType.EAGER)
-    @JoinColumn	
+    @JoinColumn
 	private Category category;
 	
-    @JsonIgnore
     public Category getCategory() {
-		return category;
+    	
+		category.setAccounts(null); //Avoid Jackson exception of recursive serialization
+    	return category;
 	}
 
 	public void setCategory(Category category) {

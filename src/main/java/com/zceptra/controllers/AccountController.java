@@ -4,11 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zceptra.entities.Account;
+import com.zceptra.entities.Category;
 import com.zceptra.entities.Transaction;
 import com.zceptra.repositories.AccountRepository;
 
@@ -48,4 +52,33 @@ public class AccountController {
 				
 		return transactions;
 	}
+	
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
+	@RequestMapping(value="get-account")
+	public Account getAccount(Long id)	{
+		
+		return repository.findOne(id);
+	}	
+	
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
+	@RequestMapping(value="edit-account", method=RequestMethod.POST)
+	@ResponseBody
+	public Account saveAccount(@RequestBody Account editedAccount)	{
+		
+		Account account = null;
+		
+		if(editedAccount.getId() != null)	{
+			
+			account = repository.findOne(editedAccount.getId());
+		}
+		else {
+			account = new Account();
+		}
+		
+		account.setName(editedAccount.getName());
+		account.setDescription(editedAccount.getDescription());
+		account.setCategory(editedAccount.getCategory());
+		return repository.save(account);
+	}
+	
 }
