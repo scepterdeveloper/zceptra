@@ -1,9 +1,7 @@
 package com.zceptra.entities;
 
-public interface OrganizingEntityType {
+public enum OrganizingEntityType {
 	
-	public static final int CATEGORY = 0;
-	public static final int ACCOUNT = 1;
-	
-
+	CATEGORY,
+	ACCOUNT
 }

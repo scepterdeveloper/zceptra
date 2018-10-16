@@ -5,13 +5,13 @@ import javax.persistence.Embeddable;
 @Embeddable
 public class OrganizingEntity {
 	
-	private Integer type;
+	private OrganizingEntityType type;
 	private Long id;
 	
-	public Integer getType() {
+	public OrganizingEntityType getType() {
 		return type;
 	}
-	public void setType(Integer type) {
+	public void setType(OrganizingEntityType type) {
 		this.type = type;
 	}
 	public Long getId() {
