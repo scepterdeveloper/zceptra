@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -22,6 +24,10 @@ public class TransactionType {
 	private String debitAccountLabel;
 	private String creditAccountLabel;
 	private String descriptionLabel;
+	@Enumerated(EnumType.ORDINAL)
+	private OrganizingEntityType debitAccountOrganizingEntityType;
+	@Enumerated(EnumType.ORDINAL)
+	private OrganizingEntityType creditAccountOrganizingEntityType;
 	private Boolean creditAccountHidden;
 	private Boolean debitAccountHidden;
 	private Boolean creditAccountLeading;
@@ -134,5 +140,21 @@ public class TransactionType {
 
 	public void setCreditableAccounts(List<OrganizingEntity> creditableAccounts) {
 		this.creditableAccounts = creditableAccounts;
+	}
+
+	public OrganizingEntityType getDebitAccountOrganizingEntityType() {
+		return debitAccountOrganizingEntityType;
+	}
+
+	public void setDebitAccountOrganizingEntityType(OrganizingEntityType debitAccountOrganizingEntityType) {
+		this.debitAccountOrganizingEntityType = debitAccountOrganizingEntityType;
+	}
+
+	public OrganizingEntityType getCreditAccountOrganizingEntityType() {
+		return creditAccountOrganizingEntityType;
+	}
+
+	public void setCreditAccountOrganizingEntityType(OrganizingEntityType creditAccountOrganizingEntityType) {
+		this.creditAccountOrganizingEntityType = creditAccountOrganizingEntityType;
 	}	
 }
