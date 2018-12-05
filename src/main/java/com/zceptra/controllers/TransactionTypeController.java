@@ -62,6 +62,8 @@ public class TransactionTypeController {
 		transactionType.setDebitableAccounts(editedTransactionType.getDebitableAccounts());
 		transactionType.setDebitAccountHidden(editedTransactionType.getDebitAccountHidden());
 		
+		transactionType.setDebitAccountOrganizingEntityType(editedTransactionType.getDebitAccountOrganizingEntityType());
+		
 		
 		return repository.save(transactionType);
 	}
