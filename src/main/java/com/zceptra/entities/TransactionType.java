@@ -2,6 +2,7 @@ package com.zceptra.entities;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,10 +34,10 @@ public class TransactionType {
 	private Boolean creditAccountLeading;
 	
 	@ElementCollection
-	private List<OrganizingEntity> debitableEntities;
+	private List<Integer> debitableEntities;
 	
 	@ElementCollection
-	private List<OrganizingEntity> creditableEntities;
+	private List<Integer> creditableEntities;
 
 	public Long getId() {
 		return id;
@@ -126,19 +127,19 @@ public class TransactionType {
 		this.creditAccountLeading = creditAccountLeading;
 	}
 
-	public List<OrganizingEntity> getDebitableEntities() {
+	public List<Integer> getDebitableEntities() {
 		return debitableEntities;
 	}
 
-	public void setDebitableEntities(List<OrganizingEntity> debitableEntities) {
+	public void setDebitableEntities(List<Integer> debitableEntities) {
 		this.debitableEntities = debitableEntities;
 	}
 
-	public List<OrganizingEntity> getCreditableEntities() {
+	public List<Integer> getCreditableEntities() {
 		return creditableEntities;
 	}
 
-	public void setCreditableEntities(List<OrganizingEntity> creditableEntities) {
+	public void setCreditableEntities(List<Integer> creditableEntities) {
 		this.creditableEntities = creditableEntities;
 	}
 
