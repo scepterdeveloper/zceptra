@@ -63,7 +63,7 @@ public class TransactionTypeController {
 		transactionType.setDebitAccountHidden(editedTransactionType.getDebitAccountHidden());
 		
 		transactionType.setDebitAccountOrganizingEntityType(editedTransactionType.getDebitAccountOrganizingEntityType());
-		
+		transactionType.setCreditAccountOrganizingEntityType(editedTransactionType.getCreditAccountOrganizingEntityType());		
 		
 		return repository.save(transactionType);
 	}
