@@ -54,12 +54,12 @@ public class TransactionTypeController {
 		transactionType.setDescriptionLabel(editedTransactionType.getDescriptionLabel());
 		
 		transactionType.setCreditAccountLabel(editedTransactionType.getCreditAccountLabel());
-		transactionType.setCreditableAccounts(editedTransactionType.getCreditableAccounts());
+		transactionType.setCreditableEntities(editedTransactionType.getCreditableEntities());
 		transactionType.setCreditAccountHidden(editedTransactionType.getCreditAccountHidden());
 		transactionType.setCreditAccountLeading(editedTransactionType.getCreditAccountLeading());
 		
 		transactionType.setDebitAccountLabel(editedTransactionType.getDebitAccountLabel());
-		transactionType.setDebitableAccounts(editedTransactionType.getDebitableAccounts());
+		transactionType.setDebitableEntities(editedTransactionType.getDebitableEntities());
 		transactionType.setDebitAccountHidden(editedTransactionType.getDebitAccountHidden());
 		
 		transactionType.setDebitAccountOrganizingEntityType(editedTransactionType.getDebitAccountOrganizingEntityType());

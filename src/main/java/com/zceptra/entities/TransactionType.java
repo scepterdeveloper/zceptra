@@ -33,10 +33,10 @@ public class TransactionType {
 	private Boolean creditAccountLeading;
 	
 	@ElementCollection
-	private List<OrganizingEntity> debitableAccounts;
+	private List<OrganizingEntity> debitableEntities;
 	
 	@ElementCollection
-	private List<OrganizingEntity> creditableAccounts;
+	private List<OrganizingEntity> creditableEntities;
 
 	public Long getId() {
 		return id;
@@ -126,20 +126,20 @@ public class TransactionType {
 		this.creditAccountLeading = creditAccountLeading;
 	}
 
-	public List<OrganizingEntity> getDebitableAccounts() {
-		return debitableAccounts;
+	public List<OrganizingEntity> getDebitableEntities() {
+		return debitableEntities;
 	}
 
-	public void setDebitableAccounts(List<OrganizingEntity> debitableAccounts) {
-		this.debitableAccounts = debitableAccounts;
+	public void setDebitableEntities(List<OrganizingEntity> debitableEntities) {
+		this.debitableEntities = debitableEntities;
 	}
 
-	public List<OrganizingEntity> getCreditableAccounts() {
-		return creditableAccounts;
+	public List<OrganizingEntity> getCreditableEntities() {
+		return creditableEntities;
 	}
 
-	public void setCreditableAccounts(List<OrganizingEntity> creditableAccounts) {
-		this.creditableAccounts = creditableAccounts;
+	public void setCreditableEntities(List<OrganizingEntity> creditableEntities) {
+		this.creditableEntities = creditableEntities;
 	}
 
 	public OrganizingEntityType getDebitAccountOrganizingEntityType() {
