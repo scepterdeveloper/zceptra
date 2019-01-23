@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Transient;
 
 @Entity
 public class TransactionType {
@@ -33,10 +34,31 @@ public class TransactionType {
 	private Boolean creditAccountLeading;
 	
 	@ElementCollection
-	private List<Integer> debitableEntities;
+	private List<Long> debitableEntities;
 	
 	@ElementCollection
-	private List<Integer> creditableEntities;
+	private List<Long> creditableEntities;
+	
+	@Transient
+	private List<Account> debitableAccounts;
+	@Transient
+	private List<Account> creditableAccounts;
+	
+	public List<Account> getDebitableAccounts() {
+		return debitableAccounts;
+	}
+
+	public void setDebitableAccounts(List<Account> debitableAccounts) {
+		this.debitableAccounts = debitableAccounts;
+	}
+
+	public List<Account> getCreditableAccounts() {
+		return creditableAccounts;
+	}
+
+	public void setCreditableAccounts(List<Account> creditableAccounts) {
+		this.creditableAccounts = creditableAccounts;
+	}
 
 	public Long getId() {
 		return id;
@@ -126,19 +148,19 @@ public class TransactionType {
 		this.creditAccountLeading = creditAccountLeading;
 	}
 
-	public List<Integer> getDebitableEntities() {
+	public List<Long> getDebitableEntities() {
 		return debitableEntities;
 	}
 
-	public void setDebitableEntities(List<Integer> debitableEntities) {
+	public void setDebitableEntities(List<Long> debitableEntities) {
 		this.debitableEntities = debitableEntities;
 	}
 
-	public List<Integer> getCreditableEntities() {
+	public List<Long> getCreditableEntities() {
 		return creditableEntities;
 	}
 
-	public void setCreditableEntities(List<Integer> creditableEntities) {
+	public void setCreditableEntities(List<Long> creditableEntities) {
 		this.creditableEntities = creditableEntities;
 	}
 
