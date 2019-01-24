@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.Type;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 public class Transaction {
@@ -50,20 +51,22 @@ public class Transaction {
 		this.text = text;
 	}
 
-	@JsonIgnore
+	//@JsonIgnore
 	public Account getAccount() {
 		return account;
 	}
 
+	@JsonProperty
 	public void setAccount(Account account) {
 		this.account = account;
 	}
 
-	@JsonIgnore
+	//@JsonIgnore
 	public Account getParticipatingAccount() {
 		return participatingAccount;
 	}
 
+	@JsonProperty
 	public void setParticipatingAccount(Account participatingAccount) {
 		this.participatingAccount = participatingAccount;
 	}

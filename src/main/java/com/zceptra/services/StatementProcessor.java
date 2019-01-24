@@ -58,7 +58,7 @@ public class StatementProcessor {
 			transaction.setAccount(statementAccount);
 			transaction.setParticipatingAccount(matchingAccount);
 			transaction.setText(date + " | " + amount + " | " + text + " | " + matchingAccount.getName());
-			statementAccount.addTransaction(transaction);			
+			//statementAccount.addTransaction(transaction);			
 		}
 		
 		accountRepository.save(statementAccount);

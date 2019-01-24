@@ -37,7 +37,7 @@ public class AccountController {
 		return accounts;
 	}
 	
-	@RequestMapping(value="get-statement")
+	/*@RequestMapping(value="get-statement")
 	public List<Transaction> getStatement(@RequestParam Long accountId)	{
 		
 		Account account = repository.findOne(accountId);
@@ -51,7 +51,7 @@ public class AccountController {
 		}
 				
 		return transactions;
-	}
+	}*/
 	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
 	@RequestMapping(value="get-account")

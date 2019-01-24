@@ -27,8 +27,8 @@ public class Account {
 	private String name;
 	private String description;
 
-	@OneToMany(mappedBy="account", cascade = CascadeType.ALL)
-	private List<Transaction> transactions;
+	/*@OneToMany(mappedBy="account", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<Transaction> transactions;*/
 	
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn
@@ -52,14 +52,14 @@ public class Account {
 		this.id = id;
 	}
 
-	@OneToMany(mappedBy="participatingAccount", cascade = CascadeType.ALL)
-	private List<Transaction> participatingTransactions;
+	/*@OneToMany(mappedBy="participatingAccount", cascade = CascadeType.ALL)
+	private List<Transaction> participatingTransactions;*/
 		
 	private String identificationPattern;	
 	
 	public Account()	{
 		
-		transactions = new ArrayList<>();
+		//transactions = new ArrayList<>();
 	}
 	
 	public Account(Category category, String name, String description, String identificationPattern)	{
@@ -68,18 +68,18 @@ public class Account {
 		this.setName(name);
 		this.setDescription(description);
 		this.identificationPattern = identificationPattern;
-		transactions = new ArrayList<>();
+		//transactions = new ArrayList<>();
 	}	
 	
-	public List<Transaction> getTransactions() {
+	/*public List<Transaction> getTransactions() {
 		
 		return transactions;		
-	}
+	}*/
 	
-	public void addTransaction(Transaction transaction)	{
+	/*public void addTransaction(Transaction transaction)	{
 		
 		transactions.add(transaction);
-	}
+	}*/
 	
 	public boolean matchesPattern(String text)	{
 		
@@ -109,13 +109,13 @@ public class Account {
 		this.description = description;
 	}
 
-	public List<Transaction> getParticipatingTransactions() {
+	/*public List<Transaction> getParticipatingTransactions() {
 		return participatingTransactions;
 	}
 
 	public void setParticipatingTransactions(List<Transaction> participatingTransactions) {
 		this.participatingTransactions = participatingTransactions;
-	}
+	}*/
 
 	public String getIdentificationPattern() {
 		return identificationPattern;
@@ -125,7 +125,7 @@ public class Account {
 		this.identificationPattern = identificationPattern;
 	}
 
-	public void setTransactions(List<Transaction> transactions) {
+	/*public void setTransactions(List<Transaction> transactions) {
 		this.transactions = transactions;
-	}
+	}*/
 }
