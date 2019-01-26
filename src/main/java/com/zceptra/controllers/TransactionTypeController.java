@@ -43,7 +43,7 @@ public class TransactionTypeController {
 	@RequestMapping(value="get-transaction-type")
 	public TransactionType getTransactionType(@RequestParam Long id)	{
 		
-		return addTransientInfo(repository.findOne(id));
+		return addTransientInfo(repository.getOne(id));
 	}	
 	
 	private TransactionType addTransientInfo(TransactionType transactionType) {
@@ -57,11 +57,11 @@ public class TransactionTypeController {
 	private List<Account> getDebitableAccounts(TransactionType transactionType)	{
 
 		if(transactionType.getDebitAccountOrganizingEntityType() == OrganizingEntityType.ACCOUNT)	{			
-			return CollectionUtilities.getListFrom(accountRepository.findAll(transactionType.getDebitableEntities()));
+			return CollectionUtilities.getListFrom(accountRepository.findAllById(transactionType.getDebitableEntities()));
 		}
 		else	{
 			List<Account> debitableAccounts = new ArrayList<>();
-			Iterable<Category> categories = categoryRepository.findAll(transactionType.getDebitableEntities());
+			Iterable<Category> categories = categoryRepository.findAllById(transactionType.getDebitableEntities());
 			for(Category category: categories) {
 				debitableAccounts.addAll(category.getAccounts());				
 			}
@@ -73,11 +73,11 @@ public class TransactionTypeController {
 	private List<Account> getCreditableAccounts(TransactionType transactionType)	{
 
 		if(transactionType.getCreditAccountOrganizingEntityType() == OrganizingEntityType.ACCOUNT)	{			
-			return CollectionUtilities.getListFrom(accountRepository.findAll(transactionType.getCreditableEntities()));
+			return CollectionUtilities.getListFrom(accountRepository.findAllById(transactionType.getCreditableEntities()));
 		}
 		else	{
 			List<Account> creditableAccounts = new ArrayList<>();
-			Iterable<Category> categories = categoryRepository.findAll(transactionType.getCreditableEntities());
+			Iterable<Category> categories = categoryRepository.findAllById(transactionType.getCreditableEntities());
 			for(Category category: categories) {
 				creditableAccounts.addAll(category.getAccounts());				
 			}
@@ -96,7 +96,7 @@ public class TransactionTypeController {
 		
 		if(editedTransactionType.getId() != null)	{
 			
-			transactionType = repository.findOne(editedTransactionType.getId());
+			transactionType = repository.getOne(editedTransactionType.getId());
 		}
 		else {
 			transactionType = new TransactionType();

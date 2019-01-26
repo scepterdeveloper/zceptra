@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zceptra.entities.Account;
-import com.zceptra.entities.Category;
-import com.zceptra.entities.Transaction;
 import com.zceptra.repositories.AccountRepository;
 
 @RestController
@@ -57,7 +55,7 @@ public class AccountController {
 	@RequestMapping(value="get-account")
 	public Account getAccount(Long id)	{
 		
-		return repository.findOne(id);
+		return repository.getOne(id);
 	}	
 	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
@@ -69,7 +67,7 @@ public class AccountController {
 		
 		if(editedAccount.getId() != null)	{
 			
-			account = repository.findOne(editedAccount.getId());
+			account = repository.getOne(editedAccount.getId());
 		}
 		else {
 			account = new Account();

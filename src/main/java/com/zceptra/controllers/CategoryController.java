@@ -1,7 +1,6 @@
 package com.zceptra.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +30,7 @@ public class CategoryController {
 	@RequestMapping(value="get-category")
 	public Category getCategory(Long id)	{
 		
-		return repository.findOne(id);
+		return repository.getOne(id);
 	}
 	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
@@ -43,7 +42,7 @@ public class CategoryController {
 		
 		if(editedCategory.getId() != null)	{
 			
-			category = repository.findOne(editedCategory.getId());
+			category = repository.getOne(editedCategory.getId());
 		}
 		else {
 			category = new Category();

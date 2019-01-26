@@ -25,7 +25,7 @@ public class Transaction {
     private Double amount;
     
     @Lob
-    @Type(type = "org.hibernate.type.TextType")    
+    @Type(type = "org.hibernate.type.TextType")
     private String text;
     
     @ManyToOne(fetch=FetchType.EAGER)

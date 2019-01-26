@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zceptra.api.CreateTransactionRequest;
-import com.zceptra.entities.Category;
 import com.zceptra.entities.Transaction;
 import com.zceptra.repositories.AccountRepository;
 import com.zceptra.repositories.TransactionRepository;
@@ -32,8 +31,8 @@ public class TransactionController {
 		transaction.setAmount(request.getAmount());
 		transaction.setText(request.getText());
 		
-		transaction.setAccount(accountRepository.findOne(request.getAccountId()));
-		transaction.setParticipatingAccount(accountRepository.findOne(request.getParticipatingAccountId()));
+		transaction.setAccount(accountRepository.getOne(request.getAccountId()));
+		transaction.setParticipatingAccount(accountRepository.getOne(request.getParticipatingAccountId()));
 		
 		transactionRepository.save(transaction);		
 	}
@@ -49,7 +48,7 @@ public class TransactionController {
 		
 		if(editedTransaction.getId() != null)	{
 			
-			transaction = transactionRepository.findOne(editedTransaction.getId());
+			transaction = transactionRepository.getOne(editedTransaction.getId());
 		}
 		else {
 			transaction = new Transaction();

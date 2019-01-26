@@ -26,7 +26,7 @@ public class StatementController {
 		Statement statement = new Statement();
 		statement.setContent(request.getStatementContent());
 		statement.setAccountId("1");
-		statement.setProfile(profileRepository.findOne(request.getProfileId()));
+		statement.setProfile(profileRepository.getOne(request.getProfileId()));
 		statementProcessor.processStatement(statement);
 		
 		return "Ok";

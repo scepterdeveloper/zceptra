@@ -1,6 +1,5 @@
 package com.zceptra.services;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class StatementProcessor {
 		String[] lines = statement.getContent().split(profile.getRowSeparator());
 		String header = lines[0];
 		String[] headerFields = header.split(profile.getColumnSeparator());
-		Account statementAccount = accountRepository.findOne(Long.parseLong(statement.getAccountId()));
+		Account statementAccount = accountRepository.getOne(Long.parseLong(statement.getAccountId()));
 		
 		int dateIndex = findIndex(headerFields, profile.getDateHeader());
 		int amountIndex = findIndex(headerFields, profile.getAmountHeader());
