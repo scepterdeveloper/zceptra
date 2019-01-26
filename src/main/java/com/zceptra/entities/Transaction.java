@@ -24,7 +24,11 @@ public class Transaction {
     private LocalDateTime date;    
     private Double amount;
     
-    @Lob
+    @ManyToOne(fetch=FetchType.EAGER)
+    @JoinColumn
+    private TransactionType transactionType;
+    
+	@Lob
     @Type(type = "org.hibernate.type.TextType")
     private String text;
     
@@ -79,6 +83,14 @@ public class Transaction {
 	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
+	
+    public TransactionType getTransactionType() {
+		return transactionType;
+	}
+
+	public void setTransactionType(TransactionType transactionType) {
+		this.transactionType = transactionType;
+	}	
 
 	public Double getAmount() {
 		return amount;

@@ -1,5 +1,7 @@
 package com.zceptra.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,27 +43,15 @@ public class TransactionController {
 	@RequestMapping(value="save-transaction", method=RequestMethod.POST)
 	@ResponseBody
 	public Transaction saveTransaction(@RequestBody Transaction editedTransaction)	{
-		
-		//System.out.print("Txn: " + editedTransaction.getDate() + " / " + editedTransaction.getParticipatingAccount().getId());
-		
-		Transaction transaction = null;
-		
-		if(editedTransaction.getId() != null)	{
-			
-			transaction = transactionRepository.getOne(editedTransaction.getId());
-		}
-		else {
-			transaction = new Transaction();
-		}
-		
-		/*category.setName(editedCategory.getName());
-		category.setDescription(editedCategory.getDescription());*/
-		
-		Transaction savedTransaction = transactionRepository.save(editedTransaction);
-		
+				
+		Transaction savedTransaction = transactionRepository.save(editedTransaction);		
 		return savedTransaction;
 	}
 	
-	
-	
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
+	@RequestMapping(value="get-all-transactions", method=RequestMethod.GET)
+	public List<Transaction> getAllTransactions()	{
+		
+		return transactionRepository.findAll();				
+	}	
 }
