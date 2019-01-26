@@ -1,17 +1,19 @@
 package com.zceptra.api;
 
+import java.time.LocalDateTime;
+
 public class CreateTransactionRequest {
 	
-	private String date;
+	private LocalDateTime date;
 	private Long accountId;
 	private Double amount;
 	private Long participatingAccountId;
 	private String text;
-	
-	public String getDate() {
+		
+	public LocalDateTime getDate() {
 		return date;
 	}
-	public void setDate(String date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 	public Long getAccountId() {

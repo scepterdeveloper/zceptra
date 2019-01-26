@@ -1,5 +1,7 @@
 package com.zceptra.entities;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -11,7 +13,6 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
@@ -20,7 +21,7 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;    
-    private String date;    
+    private LocalDateTime date;    
     private Double amount;
     
     @Lob
@@ -71,11 +72,11 @@ public class Transaction {
 		this.participatingAccount = participatingAccount;
 	}
 
-	public String getDate() {
+	public LocalDateTime getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDateTime date) {
 		this.date = date;
 	}
 

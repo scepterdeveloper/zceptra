@@ -1,5 +1,8 @@
 package com.zceptra.services;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -53,7 +56,7 @@ public class StatementProcessor {
 			}
 
 			Transaction transaction = new Transaction();
-			transaction.setDate(date);
+			transaction.setDate(LocalDateTime.now());
 			transaction.setAmount(amount);
 			transaction.setAccount(statementAccount);
 			transaction.setParticipatingAccount(matchingAccount);
