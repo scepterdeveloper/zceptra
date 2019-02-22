@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 
@@ -39,6 +40,9 @@ public class Transaction {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn
     private Account participatingAccount;
+
+	@Transient
+    private boolean markedForDelete;
 
 	public Long getId() {
 		return id;
@@ -98,6 +102,14 @@ public class Transaction {
 
 	public void setAmount(Double amount) {
 		this.amount = amount;
+	}
+	
+    public boolean isMarkedForDelete() {
+		return markedForDelete;
+	}
+
+	public void setMarkedForDelete(boolean markedForDelete) {
+		this.markedForDelete = markedForDelete;
 	}
 	
 	public void setAmount(String amount) {

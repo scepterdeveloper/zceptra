@@ -1,6 +1,8 @@
 package com.zceptra.controllers;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -61,5 +63,16 @@ public class TransactionController {
 	public Transaction getTransaction(@RequestParam Long id)	{
 		
 		return transactionRepository.getOne(id);				
-	}		
+	}	
+	
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
+	@RequestMapping(value="delete-transactions", method=RequestMethod.POST)
+	public void deleteTransactions(@RequestBody Collection<Long> transactionsToDelete)	{
+		
+		for(Long transactionToDelete: transactionsToDelete)	{
+			
+			System.out.println("id: " + transactionToDelete.longValue());	
+			transactionRepository.deleteById(transactionToDelete);
+		}						
+	}	
 }
