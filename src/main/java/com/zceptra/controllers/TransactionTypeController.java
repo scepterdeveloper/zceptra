@@ -120,6 +120,8 @@ public class TransactionTypeController {
 		transactionType.setDebitAccountOrganizingEntityType(editedTransactionType.getDebitAccountOrganizingEntityType());
 		transactionType.setCreditAccountOrganizingEntityType(editedTransactionType.getCreditAccountOrganizingEntityType());		
 		
+		transactionType.setDebitAccountFixed(editedTransactionType.getDebitAccountFixed());
+		
 		return repository.save(transactionType);
 	}
 
