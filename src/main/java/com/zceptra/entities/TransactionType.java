@@ -30,6 +30,7 @@ public class TransactionType {
 	@Enumerated(EnumType.ORDINAL)
 	private OrganizingEntityType creditAccountOrganizingEntityType;
 	private Boolean debitAccountFixed;
+	private Boolean creditAccountFixed;	
 	private Boolean debitAccountHidden;	
 	private Boolean creditAccountHidden;
 	private Boolean creditAccountLeading;
@@ -187,5 +188,13 @@ public class TransactionType {
 
 	public void setDebitAccountFixed(Boolean debitAccountFixed) {
 		this.debitAccountFixed = debitAccountFixed;
+	}
+
+	public Boolean getCreditAccountFixed() {
+		return creditAccountFixed;
+	}
+
+	public void setCreditAccountFixed(Boolean creditAccountFixed) {
+		this.creditAccountFixed = creditAccountFixed;
 	}	
 }
