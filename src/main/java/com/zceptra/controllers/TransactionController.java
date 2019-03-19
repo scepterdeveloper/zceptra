@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zceptra.api.CreateTransactionRequest;
+import com.zceptra.entities.Account;
+import com.zceptra.entities.AccountSummary;
+import com.zceptra.entities.AccountingOperation;
 import com.zceptra.entities.Transaction;
 import com.zceptra.repositories.AccountRepository;
+import com.zceptra.repositories.AccountSummaryRepository;
 import com.zceptra.repositories.TransactionRepository;
 
 @RestController
@@ -26,6 +30,9 @@ public class TransactionController {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private AccountSummaryRepository summaryRepository;
 	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
 	@RequestMapping(value = "/create-transaction", method = RequestMethod.POST)
@@ -42,12 +49,48 @@ public class TransactionController {
 		transactionRepository.save(transaction);		
 	}
 	
+	private void maintainSummaryForAccount(Account account, int year, int month, AccountingOperation operation, double amount)	{
+		
+		AccountSummary accountSummary = null;
+		
+		List<AccountSummary> accountSummaryList = summaryRepository.findByAccountIdAndYearAndMonth(account.getId(), year, month);
+		if(accountSummaryList!=null && !accountSummaryList.isEmpty())	{
+			accountSummary = accountSummaryList.get(0);
+		}
+		else	{
+			
+			accountSummary = new AccountSummary();
+			accountSummary.setAccountId(account.getId());
+			accountSummary.setYear(year);
+			accountSummary.setMonth(month);
+		}	
+		
+		if(operation == AccountingOperation.DEBIT) accountSummary.debit(amount);
+		else accountSummary.credit(amount);
+		summaryRepository.save(accountSummary);		
+	}
+	
+	private void maintainSummaryForTransaction(Transaction transaction)	{
+		
+		if(transaction.getId()!=null) rollBackOldSummary(transaction);
+		maintainSummaryForAccount(transaction.getAccount(), 2019, 2, AccountingOperation.DEBIT, transaction.getAmount());
+		maintainSummaryForAccount(transaction.getParticipatingAccount(), 2019, 2, AccountingOperation.CREDIT, transaction.getAmount());				
+	}
+	
+	private void rollBackOldSummary(Transaction transaction)	{
+		
+		Transaction unmodifiedTransaction = transactionRepository.getOne(transaction.getId());
+		summaryRepository.findByAccountIdAndYearAndMonth(unmodifiedTransaction.getAccount().getId(), 2019, 2).get(0).debit(unmodifiedTransaction.getAmount()*-1);
+		summaryRepository.findByAccountIdAndYearAndMonth(unmodifiedTransaction.getParticipatingAccount().getId(), 2019, 2).get(0).credit(unmodifiedTransaction.getAmount()*-1);
+	}
+	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
 	@RequestMapping(value="save-transaction", method=RequestMethod.POST)
 	@ResponseBody
 	public Transaction saveTransaction(@RequestBody Transaction editedTransaction)	{
-				
-		Transaction savedTransaction = transactionRepository.save(editedTransaction);		
+			
+		maintainSummaryForTransaction(editedTransaction);
+		Transaction savedTransaction = transactionRepository.save(editedTransaction);
 		return savedTransaction;
 	}
 	
@@ -71,7 +114,7 @@ public class TransactionController {
 		
 		for(Long transactionToDelete: transactionsToDelete)	{
 			
-			System.out.println("id: " + transactionToDelete.longValue());	
+			rollBackOldSummary(transactionRepository.getOne(transactionToDelete));			
 			transactionRepository.deleteById(transactionToDelete);
 		}						
 	}	
