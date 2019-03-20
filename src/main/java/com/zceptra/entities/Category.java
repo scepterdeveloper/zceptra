@@ -18,6 +18,7 @@ public class Category {
 	private Long id;
 	private String name;
 	private String description;
+	private SummaryInterval interval;
 	
 	public Category()	{
 		
@@ -55,5 +56,13 @@ public class Category {
 	}
 	public void setAccounts(List<Account> accounts) {
 		this.accounts = accounts;
+	}
+
+	public SummaryInterval getInterval() {
+		return interval;
+	}
+
+	public void setInterval(SummaryInterval interval) {
+		this.interval = interval;
 	}
 }
