@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +20,7 @@ public class Category {
 	private Long id;
 	private String name;
 	private String description;
+	@Enumerated(EnumType.ORDINAL)
 	private SummaryInterval interval;
 	
 	public Category()	{

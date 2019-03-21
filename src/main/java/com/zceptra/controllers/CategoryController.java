@@ -50,6 +50,7 @@ public class CategoryController {
 		
 		category.setName(editedCategory.getName());
 		category.setDescription(editedCategory.getDescription());
+		category.setInterval(editedCategory.getInterval());
 		return repository.save(category);
 	}
 }
