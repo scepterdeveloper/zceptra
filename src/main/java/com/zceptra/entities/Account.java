@@ -1,5 +1,8 @@
 package com.zceptra.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Account {	
@@ -23,6 +27,10 @@ public class Account {
     @ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn
 	private Category category;
+    
+	@OneToMany(mappedBy="account", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	private List<AccountSummary> accountSummary;
+    
 	
     public Category getCategory() {
     	
@@ -32,6 +40,14 @@ public class Account {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+
+	public List<AccountSummary> getAccountSummary() {
+		return accountSummary;
+	}
+
+	public void setAccountSummary(List<AccountSummary> accountSummary) {
+		this.accountSummary = accountSummary;
 	}
 
 	public Long getId() {

@@ -1,5 +1,7 @@
 package com.zceptra.controllers;
 
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -50,32 +52,64 @@ public class TransactionController {
 		transactionRepository.save(transaction);		
 	}
 	
-	private void maintainSummaryForAccount(Account account, int year, int month, AccountingOperation operation, double amount) throws Exception	{
+	private void maintainSummaryForAccount(Account account, Transaction transaction, int year, int month, AccountingOperation operation, double amount) throws Exception	{
 		
-		AccountSummary accountSummary = null;
+		AccountSummary encompassingTimeline = null;
 		SummaryInterval interval = account.getCategory().getInterval();
 		List<AccountSummary> accountSummaryList = null;
+		LocalDate transactionDate = transaction.getDate().toLocalDate();
 		
-		if(interval == SummaryInterval.MONTHLY) accountSummaryList = summaryRepository.findByAccountIdAndYearAndMonth(account.getId(), year, month);
-		else if(interval == SummaryInterval.YEARLY) accountSummaryList = summaryRepository.findByAccountIdAndYear(account.getId(), year);
-		else if(interval == SummaryInterval.COMPLETE) accountSummaryList = summaryRepository.findByAccountId(account.getId());
-		else throw new Exception("Unsupported SummaryInterval");
+		LocalDate validFrom = LocalDate.of(1900, 1, 1);
+		LocalDate validTo = LocalDate.of(9999, 12, 31);
 		
-		
-		if(accountSummaryList!=null && !accountSummaryList.isEmpty())	{
-			accountSummary = accountSummaryList.get(0);
+		if(interval == SummaryInterval.MONTHLY) {
+			validFrom = LocalDate.of(year, month, 1);
+			YearMonth yearMonth = YearMonth.of(year, month);
+			validTo = LocalDate.of(year, month, yearMonth.lengthOfMonth());
 		}
-		else	{
-			
-			accountSummary = new AccountSummary();
-			accountSummary.setAccountId(account.getId());
-			accountSummary.setYear(year);
-			accountSummary.setMonth(month);
-		}	
+		else if(interval == SummaryInterval.YEARLY) {
+			validFrom = LocalDate.of(year, 1, 1);
+			validTo = LocalDate.of(year, 12, 31);
+		}
 		
-		if(operation == AccountingOperation.DEBIT) accountSummary.debit(amount);
-		else accountSummary.credit(amount);
-		summaryRepository.save(accountSummary);		
+		accountSummaryList = summaryRepository.findAllByAccountIdAndValidFromLessThanEqualAndValidToGreaterThanEqual(account.getId(), transactionDate, transactionDate);
+		
+		if(accountSummaryList!=null && accountSummaryList.size()>0)	{
+			encompassingTimeline= accountSummaryList.get(0);
+		}
+		else throw new Exception("No encompassing account summary, check if default for the account was created.");
+		
+		if(!(encompassingTimeline.getValidFrom().equals(validFrom) && encompassingTimeline.getValidTo().equals(validTo)))	{
+			
+			//Do Splitting
+			if(!encompassingTimeline.getValidFrom().equals(validFrom))	{
+				
+				AccountSummary precedingTimeline = new AccountSummary();
+				precedingTimeline.setAccount(account);
+				precedingTimeline.setValidFrom(encompassingTimeline.getValidFrom());
+				precedingTimeline.setValidTo(validFrom.minusDays(1));
+				summaryRepository.save(precedingTimeline);
+			}
+			
+			if(!encompassingTimeline.getValidTo().equals(validTo))	{
+				
+				AccountSummary succeedingTimeline = new AccountSummary();
+				succeedingTimeline.setAccount(account);
+				succeedingTimeline.setValidFrom(validTo.plusDays(1));
+				succeedingTimeline.setValidTo(encompassingTimeline.getValidTo());
+				summaryRepository.save(succeedingTimeline);				
+			}
+			
+			encompassingTimeline.setValidFrom(validFrom);
+			encompassingTimeline.setValidTo(validTo);			
+		}
+				
+		encompassingTimeline.setMonth(month);
+		encompassingTimeline.setYear(year);
+		
+		if(operation == AccountingOperation.DEBIT) encompassingTimeline.debit(amount);
+		else encompassingTimeline.credit(amount);
+		summaryRepository.save(encompassingTimeline);							
 	}
 	
 	private void maintainSummaryForTransaction(Transaction transaction) throws Exception	{
@@ -83,8 +117,8 @@ public class TransactionController {
 		if(transaction.getId()!=null) rollBackOldSummary(transaction);
 		int year = transaction.getDate().getYear();
 		int month = transaction.getDate().getMonthValue();
-		maintainSummaryForAccount(transaction.getAccount(), year, month, AccountingOperation.DEBIT, transaction.getAmount());
-		maintainSummaryForAccount(transaction.getParticipatingAccount(), year, month, AccountingOperation.CREDIT, transaction.getAmount());				
+		maintainSummaryForAccount(transaction.getAccount(), transaction, year, month, AccountingOperation.DEBIT, transaction.getAmount());
+		maintainSummaryForAccount(transaction.getParticipatingAccount(), transaction, year, month, AccountingOperation.CREDIT, transaction.getAmount());				
 	}
 	
 	private void rollBackOldSummary(Transaction transaction) throws Exception	{
@@ -98,11 +132,10 @@ public class TransactionController {
 		
 		AccountSummary accountSummary = null;
 		SummaryInterval iInterval = account.getCategory().getInterval();
-		int year = transaction.getDate().getYear();
-		int month = transaction.getDate().getMonthValue();			
+		LocalDate transactionDate = transaction.getDate().toLocalDate();	
 		
-		if(iInterval == SummaryInterval.MONTHLY) accountSummary = summaryRepository.findByAccountIdAndYearAndMonth(account.getId(), year, month).get(0);
-		else if(iInterval == SummaryInterval.YEARLY) accountSummary = summaryRepository.findByAccountIdAndYear(account.getId(), year).get(0);
+		if(iInterval == SummaryInterval.MONTHLY) accountSummary = summaryRepository.findAllByAccountIdAndValidFromLessThanEqualAndValidToGreaterThanEqual(account.getId(), transactionDate, transactionDate).get(0);
+		else if(iInterval == SummaryInterval.YEARLY) accountSummary = summaryRepository.findAllByAccountIdAndValidFromLessThanEqualAndValidToGreaterThanEqual(account.getId(), transactionDate, transactionDate).get(0);
 		else if(iInterval == SummaryInterval.COMPLETE) accountSummary = summaryRepository.findByAccountId(account.getId()).get(0);
 		else throw new Exception("Unsupported SummaryInterval");		
 		

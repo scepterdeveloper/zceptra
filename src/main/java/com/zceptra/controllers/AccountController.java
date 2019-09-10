@@ -1,5 +1,7 @@
 package com.zceptra.controllers;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.zceptra.entities.Account;
+import com.zceptra.entities.AccountSummary;
 import com.zceptra.repositories.AccountRepository;
 
 @RestController
@@ -71,6 +74,15 @@ public class AccountController {
 		}
 		else {
 			account = new Account();
+			AccountSummary accountSummary = new AccountSummary();
+			accountSummary.setAccount(account);
+			accountSummary.setValidFrom(LocalDate.of(1900, 1, 1));
+			accountSummary.setValidTo(LocalDate.of(9999, 12, 31));
+			accountSummary.setYear(1900);
+			accountSummary.setMonth(1);
+			List<AccountSummary> accountSummaryList = new ArrayList<>();
+			accountSummaryList.add(accountSummary);
+			account.setAccountSummary(accountSummaryList);
 		}
 		
 		account.setName(editedAccount.getName());
