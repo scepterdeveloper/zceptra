@@ -41,17 +41,19 @@ public class ReportEngine {
 		System.out.println("Query: " + queryString);
 		Query query = entityManager.createQuery(queryString);
 		
-		if(report.getReportType().equals("2D")) return get2DReport(query.getResultList());
+		if(report.getReportType().equals("2D")) return get2DReport(report.getxCoord(), report.getyCoord(), query.getResultList());
 		throw new Exception("Unsupported report type");
 	}
 	
-	private ReportData get2DReport(List resultList)	{
+	private ReportData get2DReport(String xCoordinateLabel, String yCoordinateLabel, List resultList)	{
 	
 		ReportData2D reportData = new ReportData2D();
+		reportData.setxCoordinateLabel(xCoordinateLabel);
+		reportData.setyCoordinateLabel(yCoordinateLabel);
 		
 		for(Object[] row: (List<Object[]>)resultList) {
 			System.out.println("X: " + row[0].toString() + ", Y: " + row[1].toString());
-			reportData.put(row[0].toString(), row[1].toString());
+			reportData.addValue(row[0].toString(), row[1].toString());
 		}
 		
 		return reportData;
