@@ -7,6 +7,7 @@ public class ReportData2D implements ReportData{
 	
 	private static final long serialVersionUID = 1L;
 	
+	private String caption;
 	private String xCoordinateLabel;
 	private String yCoordinateLabel;
 	private List<ReportData2DLine> values;
@@ -40,4 +41,12 @@ public class ReportData2D implements ReportData{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	
+	public String getCaption() {
+		return caption;
+	}
+
+	public void setCaption(String caption) {
+		this.caption = caption;
+	}	
 }
