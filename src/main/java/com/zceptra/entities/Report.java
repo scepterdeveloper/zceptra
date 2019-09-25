@@ -18,6 +18,8 @@ public class Report {
 	private String query;
 	private String xCoord;
 	private String yCoord;
+	private String xCoordLabel;
+	private String yCoordLabel;	
 	
 	public String getEntityName() {
 		return entityName;
@@ -67,5 +69,17 @@ public class Report {
 	}
 	public void setyCoord(String yCoord) {
 		this.yCoord = yCoord;
+	}
+	public String getxCoordLabel() {
+		return xCoordLabel;
+	}
+	public void setxCoordLabel(String xCoordLabel) {
+		this.xCoordLabel = xCoordLabel;
+	}
+	public String getyCoordLabel() {
+		return yCoordLabel;
+	}
+	public void setyCoordLabel(String yCoordLabel) {
+		this.yCoordLabel = yCoordLabel;
 	}		
 }

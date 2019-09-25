@@ -41,7 +41,7 @@ public class ReportEngine {
 		System.out.println("Query: " + queryString);
 		Query query = entityManager.createQuery(queryString);
 		
-		if(report.getReportType().equals("2D")) return get2DReport(report.getName(), report.getxCoord(), report.getyCoord(), query.getResultList());
+		if(report.getReportType().equals("2D")) return get2DReport(report.getName(), report.getxCoordLabel(), report.getyCoordLabel(), query.getResultList());
 		throw new Exception("Unsupported report type");
 	}
 	
