@@ -125,6 +125,15 @@ public class TransactionTypeController {
 		
 		return repository.save(transactionType);
 	}
+	
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
+	@RequestMapping(value="delete-transaction-type", method=RequestMethod.POST)	
+	public void deleteTransactionType(@RequestBody TransactionType deletedTransactionType)	{
+		
+		repository.delete(deletedTransactionType);	
+		System.out.println("Deleted Transaction Type: " + deletedTransactionType.getId() + " / " + deletedTransactionType.getName());
+
+	}
 
 	public AccountRepository getAccountRepository() {
 		return accountRepository;
