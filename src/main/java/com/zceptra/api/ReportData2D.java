@@ -11,6 +11,8 @@ public class ReportData2D implements ReportData{
 	private String xCoordinateLabel;
 	private String yCoordinateLabel;
 	private List<ReportData2DLine> values;
+	private String totalValue;
+	private String totalValueLabel;
 	
 	public ReportData2D()	{
 		
@@ -48,5 +50,22 @@ public class ReportData2D implements ReportData{
 
 	public void setCaption(String caption) {
 		this.caption = caption;
+	}
+
+	public String getTotalValue() {
+		return totalValue;
+	}
+
+	public void setTotalValue(String totalValue) {
+		this.totalValue = totalValue;
+	}
+
+	public String getTotalValueLabel() {
+		return totalValueLabel;
+	}
+
+	public void setTotalValueLabel(String totalValueLabel) {
+		this.totalValueLabel = totalValueLabel;
 	}	
+	
 }
