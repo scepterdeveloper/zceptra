@@ -26,6 +26,15 @@ public class ReportRuntimeController {
 		ReportData reportData = reportEngine.executeReport(reportId);
 		ObjectMapper mapper = new ObjectMapper(); 
 		return mapper.writeValueAsString(reportData);
+	}
+	
+	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
+	@RequestMapping(value="execute-reports")
+	public String executeReports() throws Exception	{
+		
+		List<ReportData> reportData = reportEngine.executeReports();
+		ObjectMapper mapper = new ObjectMapper(); 
+		return mapper.writeValueAsString(reportData);
 	}		
 	
 	@CrossOrigin(origins = {"https://zceptra-ui.herokuapp.com", "http://localhost:4200"})
